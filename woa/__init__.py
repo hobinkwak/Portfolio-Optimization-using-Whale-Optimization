@@ -60,8 +60,8 @@ class WhaleOptim:
         r = np.random.random(self.n_whale)
         A = 2 * a * r - a
         C = 2 * r
-        search_idx = np.where((p < 0.5) & (A > 1))
-        encircle_idx = np.where((p < 0.5) & (A <= 1))
+        search_idx = np.where((p < 0.5) & (abs(A) > 1))
+        encircle_idx = np.where((p < 0.5) & (abs(A) <= 1))
         bubbleNet_idx = np.where(p >= 0.5)
         self.search(search_idx, A[search_idx], C[search_idx])
         self.encircle(encircle_idx, A[encircle_idx], C[encircle_idx])
