@@ -44,7 +44,7 @@ class WhaleOptim:
         self.whale['position'][idx] = self.whale['position'][idx] / self.whale['position'][idx].sum(axis=-1)[
             ..., np.newaxis]
 
-    def bubble_net(self, idx, b):
+    def bubble_net(self, idx):
         d_prime = np.abs(self.prey['position'] - self.whale['position'][idx])
         l = np.random.uniform(-1, 1, size=len(idx[0]))
         self.whale["position"][idx] = np.clip(
