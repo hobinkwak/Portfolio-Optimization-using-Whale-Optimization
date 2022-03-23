@@ -46,7 +46,7 @@ class WhaleOptim:
 
     def bubble_net(self, idx, b):
         d_prime = np.abs(self.prey['position'] - self.whale['position'][idx])
-        l = (b -1) * np.random.random(size=len(idx[0])) + 1
+        l = np.random.uniform(-1, 1, size=len(idx[0]))
         self.whale["position"][idx] = np.clip(
             d_prime * np.exp(self.spiral_constant * l)[..., np.newaxis] * np.cos(2 * np.pi * l)[..., np.newaxis]
             + self.prey["position"],
@@ -56,7 +56,7 @@ class WhaleOptim:
         self.whale['position'][idx] = self.whale['position'][idx] / self.whale['position'][idx].sum(axis=-1)[
             ..., np.newaxis]
 
-    def optimize(self, a, b):
+    def optimize(self, a):
 
         p = np.random.random(self.n_whale)
         r = np.random.random(self.n_whale)
@@ -67,7 +67,7 @@ class WhaleOptim:
         bubbleNet_idx = np.where(p >= 0.5)
         self.search(search_idx, A[search_idx], C[search_idx])
         self.encircle(encircle_idx, A[encircle_idx], C[encircle_idx])
-        self.bubble_net(bubbleNet_idx, b)
+        self.bubble_net(bubbleNet_idx)
         self.whale['fitness'] = self.obj_func(self.whale['position'])
 
     def run(self):
@@ -77,8 +77,7 @@ class WhaleOptim:
         for n in range(self.n_iter):
             # print("Iteration = ", n, " f(x) = ", self.prey['fitness'][0])
             a = 2 - n * (2 / self.n_iter)
-            b = -1 + n * (-1 / self.n_iter)
-            self.optimize(a, b)
+            self.optimize(a)
             self.update_prey()
             f_values.append(self.prey['fitness'][0])
         optimal_x = self.prey['position'].squeeze()
