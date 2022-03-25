@@ -59,9 +59,10 @@ class WhaleOptim:
     def optimize(self, a):
 
         p = np.random.random(self.n_whale)
-        r = np.random.random(self.n_whale)
-        A = 2 * a * r - a
-        C = 2 * r
+        r1 = np.random.random(self.n_whale)
+        r2 = np.random.random(self.n_whale)
+        A = 2 * a * r1 - a
+        C = 2 * r2
         search_idx = np.where((p < 0.5) & (abs(A) > 1))
         encircle_idx = np.where((p < 0.5) & (abs(A) <= 1))
         bubbleNet_idx = np.where(p >= 0.5)
